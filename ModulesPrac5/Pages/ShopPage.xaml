@@ -9,6 +9,52 @@
       Title="ShopPage" Background="White">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Фильтрация по цене" FontFamily="Segoe UI" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+            <ComboBox x:Name="OrderByCost" FontFamily="Segoe UI" FontSize="20" Width="140" Height="30" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="OrderByCost_SelectionChanged">
+                <ComboBoxItem>
+                    <TextBlock Text="По возрастанию цены"/>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <TextBlock Text="По убыванию цены"/>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Text="Фильтрация по названию" FontFamily="Segoe UI" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+            <ComboBox x:Name="OrderByName" FontFamily="Segoe UI" FontSize="20" Width="140" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" SelectionChanged="OrderByName_SelectionChanged">
+                <ComboBoxItem>
+                    <TextBlock Text="А - Я"/>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <TextBlock Text="Я - А"/>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Text="Фильтрация по категориям" FontFamily="Segoe UI" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0"/>
+            <ComboBox x:Name="OrderByCategories" FontFamily="Segoe UI" FontSize="20" Width="140" Height="30" Grid.Column="2" Grid.Row="1" SelectionChanged="OrderByCategories_SelectionChanged"/>
+
+            <Button x:Name="CartBtn" Background="#67BA80" Content="Корзина" Width="140" Height="30" FontFamily="Segoe UI" FontSize="20" Grid.Column="2" Grid.Row="2" Click="CartBtn_Click"/>
+        </Grid>
+
+        <ListView x:Name="LViewItems" Grid.Row="1">
+            
+        </ListView>
     </Grid>
 </Page>

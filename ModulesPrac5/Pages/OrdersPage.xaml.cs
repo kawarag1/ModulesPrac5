@@ -1,4 +1,5 @@
 ﻿using ModulesPrac5.Models;
+using ModulesPrac5.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,19 @@ namespace ModulesPrac5.Pages
     /// </summary>
     public partial class OrdersPage : Page
     {
+        public static Users user_;
         public OrdersPage(Users user)
         {
             InitializeComponent();
+            user_ = user;
+            InitializeOrders();
+        }
+
+        private void InitializeOrders()
+        {
+            var context = Helper.GetContext();
+            var orders = context.Orders.Where(x => x.UserID == user_.ID).ToList();
+            OrdersLView.ItemsSource = orders;
         }
     }
 }

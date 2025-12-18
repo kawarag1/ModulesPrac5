@@ -24,5 +24,25 @@ namespace ModulesPrac5.Pages
         {
             InitializeComponent();
         }
+
+        private void CartBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CartPage());
+        }
+
+        private void OrderByName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void OrderByCost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void OrderByCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
