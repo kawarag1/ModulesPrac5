@@ -48,13 +48,35 @@
             </ComboBox>
 
             <TextBlock Text="Фильтрация по категориям" FontFamily="Segoe UI" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0"/>
-            <ComboBox x:Name="OrderByCategories" FontFamily="Segoe UI" FontSize="20" Width="140" Height="30" Grid.Column="2" Grid.Row="1" SelectionChanged="OrderByCategories_SelectionChanged"/>
+            <ComboBox x:Name="OrderByCategories" FontFamily="Segoe UI" FontSize="20" Width="140" Height="30" Grid.Column="2" Grid.Row="1" SelectionChanged="OrderByCategories_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <Button x:Name="CartBtn" Background="#67BA80" Content="Корзина" Width="140" Height="30" FontFamily="Segoe UI" FontSize="20" Grid.Column="2" Grid.Row="2" Click="CartBtn_Click"/>
         </Grid>
 
         <ListView x:Name="LViewItems" Grid.Row="1">
-            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="1000">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="{Binding ImageURL, FallbackValue = '/Images/default.png', TargetNullValue = '/Images/default.png'}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name, StringFormat = 'Название: {0}'}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Price, StringFormat= 'Цена: {0}₽'}"/>
+                        <Button x:Name="AddToCart" Content="Добавить в корзину" FontFamily="Segoe UI" FontSize="20" Grid.Column="3" Click="AddToCart_Click"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Page>

@@ -9,6 +9,21 @@
       Title="CartPage" Background="White">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="CreateOrder" Content="Оформить заказ" FontFamily="Segoe UI" FontSize="20" Width="200" Height="30" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#67BA80" Click="CreateOrder_Click"/>
+        <TextBlock x:Name="CartsSumProdcuts" FontFamily="Segoe UI" FontSize="20" Text="111" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock x:Name="CartCost" FontFamily="Segoe UI" FontSize="20" Text="111" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,60,0"/>
+
+        <ListView x:Name="LVCarts">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
