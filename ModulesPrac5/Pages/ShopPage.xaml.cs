@@ -31,7 +31,7 @@ namespace ModulesPrac5.Pages
 
         private void CartBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new CartPage());
+            NavigationService.Navigate(new CartPage(UserHelper.user));
         }
 
         private void InitializeProducts()

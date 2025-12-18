@@ -46,7 +46,35 @@ namespace ModulesPrac5.Pages
         }
         private void CreateOrder_Click(object sender, RoutedEventArgs e)
         {
+            var context = Helper.GetContext();
+            Orders order = new Orders();
+            order.UserID = user_.ID;
+            order.OrderDate = DateTime.Now;
+            order.TotalAmount = Convert.ToDecimal(CartCost.Text);
+            order.Status = 1;
+            context.Orders.Add(order);
+            context.SaveChanges();
 
+            foreach (Carts product in LVCarts.Items)
+            {
+                OrderItems item_ = new OrderItems();
+                item_.OrderID = order.ID;
+                item_.ProductID = product.ProductID;
+                item_.Quantity = product.Quantity;
+                item_.PriceAtOrder = product.Products.Price;
+                context.OrderItems.Add(item_);
+            }
+            context.SaveChanges();
+        }
+
+        private void DeleteFromCart_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var item = button.DataContext as Carts;
+
+            var context = Helper.GetContext();
+            context.Carts.Remove(item);
+            context.SaveChanges();
         }
     }
 }

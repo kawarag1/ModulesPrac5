@@ -18,10 +18,28 @@
         <TextBlock x:Name="CartsSumProdcuts" FontFamily="Segoe UI" FontSize="20" Text="111" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBlock x:Name="CartCost" FontFamily="Segoe UI" FontSize="20" Text="111" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,60,0"/>
 
-        <ListView x:Name="LVCarts">
+        <ListView x:Name="LVCarts" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    
+                    <Grid Width="1000">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <Image Grid.Column="0" Grid.Row="0" Source="{Binding Products.ImageURL, FallbackValue = '/Images/default.png', TargetNullValue = '/Images/default.png'}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Products.Name, StringFormat = 'Название: {0}'}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Products.Price, StringFormat = 'Цена: {0}₽'}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding Quantity, StringFormat = 'Количество: {0} шт.'}"/>
+                        <Button x:Name="DeleteFromCart" Content="Удаить из корзины" FontFamily="Segoe UI" FontSize="20" Grid.Column="3" Click="DeleteFromCart_Click"/>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
