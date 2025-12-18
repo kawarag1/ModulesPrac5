@@ -10,7 +10,19 @@
 
     <Grid>
         <ListView x:Name="OrdersLView" Grid.Row="1">
-            
+            <Grid Width="1000">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding ID}" Grid.Column="0"/>
+                <TextBlock Text="{Binding OrderDate}" Grid.Column="1"/>
+                <TextBlock Text="{Binding TotalAmount}" Grid.Column="2"/>
+                <TextBlock Text="{Binding Status}" Grid.Column="3"/>
+            </Grid>
         </ListView>
     </Grid>
 </Page>
