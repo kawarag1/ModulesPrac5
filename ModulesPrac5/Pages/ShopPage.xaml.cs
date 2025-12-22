@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace ModulesPrac5.Pages
 {
@@ -23,6 +24,7 @@ namespace ModulesPrac5.Pages
     public partial class ShopPage : Page
     {
         public List<Products> products_;
+        public List<Products> products__;
 
         public ShopPage()
         {
@@ -33,7 +35,14 @@ namespace ModulesPrac5.Pages
 
         private void CartBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new CartPage(UserHelper.user));
+            if (UserHelper.user == null)
+            {
+                MessageBox.Show("Вы не авторизованы!");
+            }
+            else
+            {
+                NavigationService.Navigate(new CartPage(UserHelper.user));
+            }
         }
 
         private void InitializeProducts()
@@ -41,7 +50,13 @@ namespace ModulesPrac5.Pages
             LViewItems.ItemsSource = null;
             var context = Helper.GetContext();
             products_ = context.Products.ToList();
+            products__ = context.Products.ToList();
             LViewItems.ItemsSource = products_;
+        }
+    
+        private void UpdateListProducts()
+        {
+            LViewItems.ItemsSource = products__;
         }
 
         private void InitializeCategories()
@@ -129,7 +144,7 @@ namespace ModulesPrac5.Pages
 
         private void ClearFilters_Click(object sender, RoutedEventArgs e)
         {
-            InitializeProducts();
+            UpdateListProducts();
             OrderByName.SelectedItem = null;
             OrderByCategories.SelectedItem = null;
             OrderByCost.SelectedItem = null;

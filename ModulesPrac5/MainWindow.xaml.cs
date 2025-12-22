@@ -100,7 +100,14 @@ namespace ModulesPrac5
 
         private void OrdersButton_Click(object sender, RoutedEventArgs e)
         {
-            FrmMain.Navigate(new OrdersPage(UserHelper.user));
+            if (UserHelper.user == null)
+            {
+                MessageBox.Show("Вы не авторизованы!");
+            }
+            else
+            {
+                FrmMain.Navigate(new OrdersPage(UserHelper.user));
+            }
         }
     }
 }
