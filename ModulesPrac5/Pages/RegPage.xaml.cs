@@ -29,18 +29,25 @@ namespace ModulesPrac5.Pages
 
         private void btnReg_Click(object sender, RoutedEventArgs e)
         {
-            var context = Helper.GetContext();
-            Users user_ = new Users();
-            user_.Username = loginbox.Text;
-            user_.RegistrationDate = DateTime.Now;
-            user_.Email = emailbox.Text;
-            user_.PasswordHash = Hash.HashPassword(pwdbox.Password.ToString());
-            context.Users.Add(user_);
-            context.SaveChanges();
-            UserHelper.user = user_;
-            MessageBox.Show("Успешно!");
-            NavigationService.GoBack();
-            NavigationService.GoBack();
+            try
+            {
+                var context = Helper.GetContext();
+                Users user_ = new Users();
+                user_.Username = loginbox.Text;
+                user_.RegistrationDate = DateTime.Now;
+                user_.Email = emailbox.Text;
+                user_.PasswordHash = Hash.HashPassword(pwdbox.Password.ToString());
+                context.Users.Add(user_);
+                context.SaveChanges();
+                UserHelper.user = user_;
+                MessageBox.Show("Успешно!");
+                NavigationService.GoBack();
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

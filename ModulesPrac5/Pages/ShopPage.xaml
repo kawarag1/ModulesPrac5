@@ -56,6 +56,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
+            <Button x:Name="ClearFilters" Background="#67BA80" Content="Сбросить фильтры" Width="240" Height="30" FontFamily="Segoe UI" FontSize="20" Grid.Column="1" Grid.Row="2" Click="ClearFilters_Click"/>
             <Button x:Name="CartBtn" Background="#67BA80" Content="Корзина" Width="140" Height="30" FontFamily="Segoe UI" FontSize="20" Grid.Column="2" Grid.Row="2" Click="CartBtn_Click"/>
         </Grid>
 
@@ -71,8 +72,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Grid.Column="0" Source="{Binding ImageURL, FallbackValue = '/Images/default.png', TargetNullValue = '/Images/default.png'}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Name, StringFormat = 'Название: {0}'}"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Price, StringFormat= 'Цена: {0}₽'}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name, StringFormat = 'Название: {0}'}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Price, StringFormat= 'Цена: {0}₽'}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI"/>
                         <Button x:Name="AddToCart" Content="Добавить в корзину" FontFamily="Segoe UI" FontSize="20" Grid.Column="3" Click="AddToCart_Click"/>
                     </Grid>
                 </DataTemplate>

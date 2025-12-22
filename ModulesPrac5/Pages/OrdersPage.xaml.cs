@@ -2,6 +2,7 @@
 using ModulesPrac5.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +33,17 @@ namespace ModulesPrac5.Pages
 
         private void InitializeOrders()
         {
-            var context = Helper.GetContext();
-            var orders = context.Orders.Where(x => x.UserID == user_.ID).ToList();
-            OrdersLView.ItemsSource = orders;
+            try
+            {
+                OrdersLView.ItemsSource = null;
+                var context = Helper.GetContext();
+                var orders = context.Orders.Where(x => x.UserID == user_.ID).Include("Statuses").ToList();
+                OrdersLView.ItemsSource = orders;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

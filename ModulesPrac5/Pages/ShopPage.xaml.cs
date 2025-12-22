@@ -22,6 +22,8 @@ namespace ModulesPrac5.Pages
     /// </summary>
     public partial class ShopPage : Page
     {
+        public List<Products> products_;
+
         public ShopPage()
         {
             InitializeComponent();
@@ -36,52 +38,54 @@ namespace ModulesPrac5.Pages
 
         private void InitializeProducts()
         {
+            LViewItems.ItemsSource = null;
             var context = Helper.GetContext();
-            var products = context.Products;
-            LViewItems.ItemsSource = products;
+            products_ = context.Products.ToList();
+            LViewItems.ItemsSource = products_;
         }
 
         private void InitializeCategories()
         {
-            var context = Helper.GetContext();
-            OrderByCategories.ItemsSource = context.CategoriesProducts.ToList();
+            try
+            {
+                var context = Helper.GetContext();
+                OrderByCategories.ItemsSource = context.CategoriesProducts.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void OrderByName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var context = Helper.GetContext();
-            if (OrderByName.SelectedItem.ToString() == "А - Я")
+            if (OrderByName.SelectedIndex == 0)
             {
                 LViewItems.ItemsSource = null;
-                LViewItems.ItemsSource = context.Products.OrderBy(x => x.Name);
+                LViewItems.ItemsSource = products_.OrderBy(x => x.Name).ToList();
             }
-            else if (OrderByName.SelectedItem.ToString() == "Я - А")
+            else if (OrderByName.SelectedIndex == 1)
             {
                 LViewItems.ItemsSource = null;
-                LViewItems.ItemsSource = context.Products.OrderByDescending(x => x.Name);
+                LViewItems.ItemsSource = products_.OrderByDescending(x => x.Name).ToList();
             }
         }
 
         private void OrderByCost_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var context = Helper.GetContext();
-            if (OrderByName.SelectedItem.ToString() == "По возрастанию цены")
+            if (OrderByCost.SelectedIndex == 0)
             {
-                LViewItems.ItemsSource = null;
-                LViewItems.ItemsSource = context.Products.OrderBy(x => x.Price);
+                LViewItems.ItemsSource = products_.OrderBy(x => x.Price).ToList();
             }
-            else if (OrderByName.SelectedItem.ToString() == "По убыванию цены")
+            else if (OrderByCost.SelectedIndex == 1)
             {
-                LViewItems.ItemsSource = null;
-                LViewItems.ItemsSource = context.Products.OrderByDescending(x => x.Price);
+                LViewItems.ItemsSource = products_.OrderByDescending(x => x.Price).ToList();
             }
         }
 
         private void OrderByCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var context = Helper.GetContext();
-            LViewItems.ItemsSource = null;
-            LViewItems.ItemsSource = context.Products.Where(x => x.CategoryID == OrderByCategories.SelectedIndex + 1).ToList();
+            LViewItems.ItemsSource = products_.Where(x => x.CategoryID == OrderByCategories.SelectedIndex + 1).ToList();
         }
 
         private void AddToCart_Click(object sender, RoutedEventArgs e)
@@ -92,26 +96,43 @@ namespace ModulesPrac5.Pages
             }
             else
             {
-                var button = sender as Button;
-                var item = button.DataContext as Products;
-                var context = Helper.GetContext();
+                try
+                {
+                    var button = sender as Button;
+                    var item = button.DataContext as Products;
+                    var context = Helper.GetContext();
 
-                var product_ = context.Carts.Where(x => x.UserID == UserHelper.user.ID && x.ProductID == item.ID).FirstOrDefault();
-                if (product_ != null)
-                {
-                    product_.Quantity += 1;
-                    context.SaveChanges();
+                    var product_ = context.Carts.Where(x => x.UserID == UserHelper.user.ID && x.ProductID == item.ID).FirstOrDefault();
+                    if (product_ != null)
+                    {
+                        product_.Quantity += 1;
+                        context.SaveChanges();
+                        MessageBox.Show("Успешно!");
+                    }
+                    else
+                    {
+                        var cart = new Carts();
+                        cart.Quantity = 1;
+                        cart.ProductID = item.ID;
+                        cart.UserID = UserHelper.user.ID;
+                        context.Carts.Add(cart);
+                        context.SaveChanges();
+                        MessageBox.Show("Успешно!");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var cart = new Carts();
-                    cart.Quantity = 1;
-                    cart.ProductID = item.ID;
-                    cart.UserID = UserHelper.user.ID;
-                    context.Carts.Add(cart);
-                    context.SaveChanges();
+                    MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void ClearFilters_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeProducts();
+            OrderByName.SelectedItem = null;
+            OrderByCategories.SelectedItem = null;
+            OrderByCost.SelectedItem = null;
         }
     }
 }

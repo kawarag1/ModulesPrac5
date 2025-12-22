@@ -33,48 +33,107 @@ namespace ModulesPrac5.Pages
 
         private void InitializeCarts()
         {
-            var context = Helper.GetContext();
-            var carts = context.Carts.Where(x => x.UserID == user_.ID).Include("Products").ToList();
-            LVCarts.ItemsSource = carts;
-            CartsSumProdcuts.Text = "Количество уникальных товаров: " + carts.Count.ToString();
-            decimal sum = 0;
-            foreach (var cart in carts)
+            try
             {
-                sum += cart.Products.Price;
+                LVCarts.ItemsSource = null;
+                var context = Helper.GetContext();
+                var carts = context.Carts.Where(x => x.UserID == user_.ID).Include("Products").ToList();
+                LVCarts.ItemsSource = carts;
+                CartsSumProdcuts.Text = "Количество уникальных товаров: " + carts.Count.ToString();
+                decimal sum = 0;
+                foreach (var cart in carts)
+                {
+                    sum += cart.Products.Price;
+                }
+                CartCost.Text = sum.ToString() + "₽";
             }
-            CartCost.Text = sum.ToString() + "₽";
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private void ClearCart()
+        {
+            try
+            {
+                var context = Helper.GetContext();
+                context.Carts.RemoveRange(context.Carts);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
         private void CreateOrder_Click(object sender, RoutedEventArgs e)
         {
-            var context = Helper.GetContext();
-            Orders order = new Orders();
-            order.UserID = user_.ID;
-            order.OrderDate = DateTime.Now;
-            order.TotalAmount = Convert.ToDecimal(CartCost.Text);
-            order.Status = 1;
-            context.Orders.Add(order);
-            context.SaveChanges();
-
-            foreach (Carts product in LVCarts.Items)
+            try
             {
-                OrderItems item_ = new OrderItems();
-                item_.OrderID = order.ID;
-                item_.ProductID = product.ProductID;
-                item_.Quantity = product.Quantity;
-                item_.PriceAtOrder = product.Products.Price;
-                context.OrderItems.Add(item_);
+                var context = Helper.GetContext();
+                Orders order = new Orders();
+                order.UserID = user_.ID;
+                order.OrderDate = DateTime.Now;
+                string Cost = new string(CartCost.Text.Where(char.IsDigit).ToArray());
+                order.TotalAmount = Convert.ToDecimal(Cost);
+                order.Status = 1;
+                context.Orders.Add(order);
+                context.SaveChanges();
+
+                if (LVCarts.ItemsSource == null)
+                {
+                    MessageBox.Show("Корзина пуста!");
+                }
+                else
+                {
+                    foreach (Carts product in LVCarts.Items)
+                    {
+                        OrderItems item_ = new OrderItems();
+                        item_.OrderID = order.ID;
+                        item_.ProductID = product.ProductID;
+                        item_.Quantity = product.Quantity;
+                        item_.PriceAtOrder = product.Products.Price;
+                        context.OrderItems.Add(item_);
+                    }
+                }
+                context.SaveChanges();
+                ClearCart();
+                MessageBox.Show("Успешно!");
             }
-            context.SaveChanges();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void DeleteFromCart_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var item = button.DataContext as Carts;
+            try
+            {
+                var button = sender as Button;
+                var item = button.DataContext as Carts;
 
-            var context = Helper.GetContext();
-            context.Carts.Remove(item);
-            context.SaveChanges();
+                var context = Helper.GetContext();
+                var item_ = context.Carts.Where(c => c.ID == item.ID).FirstOrDefault();
+                if (item_.Quantity > 1)
+                {
+                    item_.Quantity -= 1;
+                }
+                else
+                {
+                    context.Carts.Remove(item_);
+                }
+                    
+                context.SaveChanges();
+                MessageBox.Show("Успешно!");
+                InitializeCarts();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

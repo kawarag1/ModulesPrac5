@@ -61,6 +61,22 @@ namespace ModulesPrac5
                 AuthOrRegBtn.Visibility = Visibility.Hidden;
                 ExitButton.Visibility = Visibility.Hidden;
             }
+            else if (FrmMain.Content is CartPage)
+            {
+                Title.Text = "Корзина";
+                BackBtn.Visibility = Visibility.Visible;
+                AuthOrRegBtn.Visibility = Visibility.Hidden;
+                ExitButton.Visibility = Visibility.Visible;
+                OrdersButton.Visibility = Visibility.Visible;
+            }
+            else if (FrmMain.Content is OrdersPage)
+            {
+                Title.Text = "Заказы";
+                BackBtn.Visibility = Visibility.Visible;
+                AuthOrRegBtn.Visibility = Visibility.Hidden;
+                ExitButton.Visibility = Visibility.Visible;
+                OrdersButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

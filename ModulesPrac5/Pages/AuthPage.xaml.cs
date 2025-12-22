@@ -33,21 +33,28 @@ namespace ModulesPrac5.Pages
 
         private void btnEnter_Click(object sender, RoutedEventArgs e)
         {
-            var context = Helper.GetContext();
-            string login = loginbox.Text;
-            string password = pwdbox.Password.ToString();
-            string hashpwd = Hash.HashPassword(password);
+            try
+            {
+                var context = Helper.GetContext();
+                string login = loginbox.Text;
+                string password = pwdbox.Password.ToString();
+                string hashpwd = Hash.HashPassword(password);
 
-            var user = context.Users.Where(x => x.Username == login && x.PasswordHash == hashpwd).FirstOrDefault();
-            if (user != null)
-            {
-                UserHelper.user = user;
-                MessageBox.Show("Успешно!");
-                NavigationService.GoBack();
+                var user = context.Users.Where(x => x.Username == login && x.PasswordHash == hashpwd).FirstOrDefault();
+                if (user != null)
+                {
+                    UserHelper.user = user;
+                    MessageBox.Show("Успешно!");
+                    NavigationService.GoBack();
+                }
+                else
+                {
+                    MessageBox.Show("Проверьте логин или пароль");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Проверьте логин или пароль");
+                MessageBox.Show(ex.Message);
             }
         }
     }
