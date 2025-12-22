@@ -9,7 +9,7 @@
       Title="OrdersPage" Background="White">
 
     <Grid>
-        <ListView x:Name="OrdersLView" Grid.Row="1">
+        <ListView x:Name="OrdersLView" Grid.Row="1" MouseDoubleClick="OrdersLView_MouseDoubleClick">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Width="1000">

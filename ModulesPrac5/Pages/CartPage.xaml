@@ -39,7 +39,12 @@
                         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Products.Name, StringFormat = 'Название: {0}'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" TextWrapping="Wrap"/>
                         <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Products.Price, StringFormat = 'Цена: {0}₽'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" TextWrapping="Wrap"/>
                         <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding Quantity, StringFormat = 'Количество: {0}шт.'}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" TextWrapping="Wrap"/>
-                        <Button x:Name="DeleteFromCart" Content="Удаить из корзины" FontFamily="Segoe UI" FontSize="20" Grid.Column="4" Click="DeleteFromCart_Click"/>
+                        <Button x:Name="DeleteFromCart" Content="Удалить из корзины" FontFamily="Segoe UI" FontSize="20" Grid.Column="4" Click="DeleteFromCart_Click" Width="180" Height="45" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,10"/>
+                        <Button x:Name="AddOne" Content="Добавить" FontFamily="Segoe UI" FontSize="20" Grid.Column="4" Click="AddOne_Click" Width="180" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="DeleteOne" Content="Убавить" FontFamily="Segoe UI" FontSize="20" Grid.Column="4" Click="DeleteOne_Click" Width="180" Height="45" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,0,0"/>
+                        
+                        
+                        
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

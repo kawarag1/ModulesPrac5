@@ -77,6 +77,14 @@ namespace ModulesPrac5
                 ExitButton.Visibility = Visibility.Visible;
                 OrdersButton.Visibility = Visibility.Visible;
             }
+            else if (FrmMain.Content is OrderDetailsPage)
+            {
+                Title.Text = "Детали заказа";
+                BackBtn.Visibility = Visibility.Visible;
+                AuthOrRegBtn.Visibility = Visibility.Hidden;
+                OrdersButton.Visibility = Visibility.Hidden;
+                ExitButton.Visibility = Visibility.Hidden;
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

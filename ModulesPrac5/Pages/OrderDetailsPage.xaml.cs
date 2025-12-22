@@ -2,7 +2,6 @@
 using ModulesPrac5.Services;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,37 +18,27 @@ using System.Windows.Shapes;
 namespace ModulesPrac5.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для OrdersPage.xaml
+    /// Логика взаимодействия для OrderDetailsPage.xaml
     /// </summary>
-    public partial class OrdersPage : Page
+    public partial class OrderDetailsPage : Page
     {
-        public static Users user_;
-        public OrdersPage(Users user)
+        public OrderDetailsPage(Orders order)
         {
             InitializeComponent();
-            user_ = user;
-            InitializeOrders();
+            GetOrderList(order.ID);
         }
 
-        private void InitializeOrders()
+        private void GetOrderList(int orderID)
         {
             try
             {
-                OrdersLView.ItemsSource = null;
                 var context = Helper.GetContext();
-                var orders = context.Orders.Where(x => x.UserID == user_.ID).Include("Statuses").ToList();
-                OrdersLView.ItemsSource = orders;
+                LVOrders.ItemsSource = context.OrderItems.Where(x => x.OrderID == orderID).ToList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void OrdersLView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var order = OrdersLView.SelectedItem as Orders;
-            NavigationService.Navigate(new OrderDetailsPage(order));
         }
     }
 }

@@ -43,7 +43,7 @@ namespace ModulesPrac5.Pages
                 decimal sum = 0;
                 foreach (var cart in carts)
                 {
-                    sum += cart.Products.Price;
+                    sum += cart.Products.Price * cart.Quantity;
                 }
                 CartCost.Text = sum.ToString() + "₽";
             }
@@ -101,11 +101,21 @@ namespace ModulesPrac5.Pages
                 context.SaveChanges();
                 ClearCart();
                 MessageBox.Show("Успешно!");
+                InitializeCarts();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void DeleteFromCart(Carts item)
+        {
+            var context = Helper.GetContext();
+            var item_ = context.Carts.Where(c => c.ID == item.ID).FirstOrDefault();
+            context.Carts.Remove(item_);
+
+            context.SaveChanges();
         }
 
         private void DeleteFromCart_Click(object sender, RoutedEventArgs e)
@@ -114,23 +124,55 @@ namespace ModulesPrac5.Pages
             {
                 var button = sender as Button;
                 var item = button.DataContext as Carts;
-
-                var context = Helper.GetContext();
-                var item_ = context.Carts.Where(c => c.ID == item.ID).FirstOrDefault();
-                if (item_.Quantity > 1)
-                {
-                    item_.Quantity -= 1;
-                }
-                else
-                {
-                    context.Carts.Remove(item_);
-                }
-                    
-                context.SaveChanges();
+                DeleteFromCart(item);
                 MessageBox.Show("Успешно!");
                 InitializeCarts();
             }
             catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AddOne_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                var item = button.DataContext as Carts;
+
+                var context = Helper.GetContext();
+                item.Quantity += 1;
+                context.SaveChanges();
+                InitializeCarts();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteOne_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                var item = button.DataContext as Carts;
+
+                var context = Helper.GetContext();
+                if (item.Quantity == 1)
+                {
+                    DeleteFromCart(item);
+                }
+                else
+                {
+                    item.Quantity -= 1;
+                }
+                    
+                context.SaveChanges();
+                InitializeCarts();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
